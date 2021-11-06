@@ -12,7 +12,7 @@
     "dev": "npx ts-node-dev --respawn --pretty --transpile-only src/main/index.ts",
     "format": "prettier --write \"src/**/*.ts\"",
     "lint": "tslint -p tsconfig.json",
-    "prepare": "npm run format"
+    "postgit": "npm run format && npm run lint && git push"
   },
   "dependencies": {
     "cors": "^2.8.5",
