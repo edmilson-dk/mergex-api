@@ -11,13 +11,14 @@ datasource db {
 }
 
 model User {
-  id             String @id @default(uuid())
-  name           String @db.VarChar(255)
-  username       String @db.VarChar(255)
-  email          String @db.VarChar(255)
-  password       String @db.VarChar(255)
+  id             String  @id @default(uuid())
+  name           String  @db.VarChar(255)
+  username       String  @db.VarChar(255)
+  email          String  @db.VarChar(255)
+  password       String  @db.VarChar(255)
   githubId       Int
-  githubUsername String @db.VarChar(255)
+  githubUsername String  @db.VarChar(255)
+  isDisabled     Boolean @default(false)
 
   // user profile
   profile Profile?
@@ -43,11 +44,12 @@ model User {
 
 model Profile {
   id     String @id @default(uuid())
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
   userId String @unique
 
   avatarUrl      String?
   bannerUrl      String?
+  githubProfile  String?
   bio            String    @db.Text
   followingCount Int       @default(0)
   followersCount Int       @default(0)
@@ -65,8 +67,8 @@ model Relationship {
   followerId String
   followedId String
 
-  follower User @relation("followers", fields: [followerId], references: [id])
-  followed User @relation("following", fields: [followedId], references: [id])
+  follower User @relation("followers", fields: [followerId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  followed User @relation("following", fields: [followedId], references: [id], onDelete: Cascade, onUpdate: NoAction)
 
   createdAt DateTime @default(now())
   @@map("followers")
@@ -76,7 +78,7 @@ model Post {
   id        String   @id @default(uuid())
   content   String   @db.Text
   authorId  String
-  author    User     @relation(fields: [authorId], references: [id])
+  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: NoAction)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -91,25 +93,25 @@ model Post {
 model PostLikes {
   id        String   @id @default(uuid())
   postId    String
-  post      Post     @relation(fields: [postId], references: [id])
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: NoAction)
   authorId  String
-  author    User     @relation(fields: [authorId], references: [id])
+  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: NoAction)
   createdAt DateTime @default(now())
 }
 
 model PostDisLikes {
   id        String   @id @default(uuid())
   postId    String
-  post      Post     @relation(fields: [postId], references: [id])
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: NoAction)
   authorId  String
-  author    User     @relation(fields: [authorId], references: [id])
+  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: NoAction)
   createdAt DateTime @default(now())
 }
 
 model CodeSnippets {
   id        String   @id @default(uuid())
   postId    String
-  post      Post     @relation(fields: [postId], references: [id])
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: NoAction)
   code      String   @db.Text
   language  String   @db.VarChar(255)
   createdAt DateTime @default(now())
@@ -121,9 +123,9 @@ model CodeSnippets {
 model PostComments {
   id        String   @id @default(uuid())
   postId    String
-  post      Post     @relation(fields: [postId], references: [id])
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: NoAction)
   authorId  String
-  author    User     @relation(fields: [authorId], references: [id])
+  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: NoAction)
   content   String   @db.Text
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
