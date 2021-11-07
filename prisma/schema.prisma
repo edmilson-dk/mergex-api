@@ -1,0 +1,132 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String @id @default(uuid())
+  name           String @db.VarChar(255)
+  username       String @db.VarChar(255)
+  email          String @db.VarChar(255)
+  password       String @db.VarChar(255)
+  githubId       Int
+  githubUsername String @db.VarChar(255)
+
+  // user profile
+  profile Profile?
+
+  // user posts interactions
+  posts    Post[]
+  comments PostComments[]
+  likes    PostLikes[]
+  dislikes PostDisLikes[]
+
+  // user followers relationship
+  followers Relationship[] @relation("followers")
+
+  // user following relationship
+  following Relationship[] @relation("following")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([username, githubId, email])
+  @@map("users")
+}
+
+model Profile {
+  id     String @id @default(uuid())
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @unique
+
+  avatarUrl      String?
+  bannerUrl      String?
+  bio            String    @db.Text
+  followingCount Int       @default(0)
+  followersCount Int       @default(0)
+  website        String?
+  location       String?
+  dateOfBirth    DateTime?
+
+  createdAt DateTime @default(now())
+
+  @@map("profiles")
+}
+
+model Relationship {
+  id         String @id @default(uuid())
+  followerId String
+  followedId String
+
+  follower User @relation("followers", fields: [followerId], references: [id])
+  followed User @relation("following", fields: [followedId], references: [id])
+
+  createdAt DateTime @default(now())
+  @@map("followers")
+}
+
+model Post {
+  id        String   @id @default(uuid())
+  content   String   @db.Text
+  authorId  String
+  author    User     @relation(fields: [authorId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  codeSnippets CodeSnippets[]
+  comments     PostComments[]
+  likes        PostLikes[]
+  dislikes     PostDisLikes[]
+
+  @@map("posts")
+}
+
+model PostLikes {
+  id        String   @id @default(uuid())
+  postId    String
+  post      Post     @relation(fields: [postId], references: [id])
+  authorId  String
+  author    User     @relation(fields: [authorId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+model PostDisLikes {
+  id        String   @id @default(uuid())
+  postId    String
+  post      Post     @relation(fields: [postId], references: [id])
+  authorId  String
+  author    User     @relation(fields: [authorId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+model CodeSnippets {
+  id        String   @id @default(uuid())
+  postId    String
+  post      Post     @relation(fields: [postId], references: [id])
+  code      String   @db.Text
+  language  String   @db.VarChar(255)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("code_snippets")
+}
+
+model PostComments {
+  id        String   @id @default(uuid())
+  postId    String
+  post      Post     @relation(fields: [postId], references: [id])
+  authorId  String
+  author    User     @relation(fields: [authorId], references: [id])
+  content   String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("post_comments")
+}
