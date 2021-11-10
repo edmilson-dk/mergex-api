@@ -1,3 +1,4 @@
+import 'module-alias/register';
 import { app } from './setup/app';
 
 const PORT = Number(process.env.PORT) || 8080;

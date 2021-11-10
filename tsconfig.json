@@ -7,7 +7,15 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "outDir": "dist",
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "baseUrl": "./src",
+    "paths": {
+      "@domain/*": ["domain/*"],
+      "@infra/*": ["infra/*"],
+      "@main/*": ["main/*"],
+      "@application/*": ["application/*"],
+      "@shared/*": ["shared/*"]
+    }
   },
   "exclude": ["node_modules", "**/__tests__/*"],
   "include": ["src"]
