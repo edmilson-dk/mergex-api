@@ -6,6 +6,8 @@ const emailRegex =
 const nameRegex = /^[a-zA-Z0-9 ]+$/;
 // username start with @ and not contain space
 const userNameRegex = /^@[a-zA-Z0-9_]{3,30}$/;
+// password not contain space
+const passwordRegex = /^[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]{8,30}$/;
 
 const emailSchema = Joi.object({
   email: Joi.string().email().required().regex(new RegExp(emailRegex)),
@@ -15,6 +17,9 @@ const nameSchema = Joi.object({
 });
 const usernameSchema = Joi.object({
   username: Joi.string().required().regex(new RegExp(userNameRegex)).min(3).max(30),
+});
+const passwordSchema = Joi.object({
+  password: Joi.string().required().regex(new RegExp(passwordRegex)).min(8).max(30),
 });
 
 export function isValidEmail(email: string): boolean {
@@ -32,5 +37,11 @@ export function isValidName(name: string): boolean {
 export function isValidUsername(username: string): boolean {
   if (!username) return false;
   const result = usernameSchema.validate({ username });
+  return result.error ? false : true;
+}
+
+export function isValidPassword(password: string): boolean {
+  if (!password) return false;
+  const result = passwordSchema.validate({ password });
   return result.error ? false : true;
 }
