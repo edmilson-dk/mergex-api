@@ -5,4 +5,7 @@ export type UserCreateDto = {
   password: string;
   githubId: number;
   githubUsername: string;
+  githubProfile: string;
+  avatarUrl: string;
+  bio: string;
 };

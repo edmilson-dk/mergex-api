@@ -13,7 +13,7 @@ export class CreateUserController {
 
   public async handle(req: Request, res: Response) {
     try {
-      const { github_code, name, username, email, password } = req.body;
+      const { github_code, name, username, email, password, bio } = req.body;
 
       if (!github_code) {
         return res.status(400).send({ message: 'github_code is required' });
@@ -34,8 +34,11 @@ export class CreateUserController {
         username,
         email,
         password,
+        bio,
         githubId: githubUserInfos.githubId,
         githubUsername: githubUserInfos.githubUsername,
+        avatarUrl: githubUserInfos.githubAvatarUrl,
+        githubProfile: githubUserInfos.githubProfile,
       });
 
       if (userOrError.isLeft()) {

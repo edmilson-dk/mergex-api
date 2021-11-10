@@ -3,9 +3,11 @@ import { InvalidGithubCodeError } from '../errors/invalidGithubCodeError';
 import { Either } from '@shared/error-handler/either';
 
 export type GetUserInfosSuccess = {
-  avatarUrl: string;
   githubUsername: string;
   githubId: number;
+  githubProfile: string;
+  githubAvatarUrl: string;
 };
+
 export type GetUserInfosFailure = NotFoundUserError | InvalidGithubCodeError;
 export type GetUserInfosResponse = Either<GetUserInfosFailure, GetUserInfosSuccess>;
