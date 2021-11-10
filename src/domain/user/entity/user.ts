@@ -6,6 +6,11 @@ import { InvalidGithubUsernameError } from '../use-cases/errors/invalidGithubUse
 import { InvalidNameError } from '../use-cases/errors/invalidNameError';
 import { InvalidPasswordError } from '../use-cases/errors/invalidPassword';
 import { InvalidUsernameError } from '../use-cases/errors/invalidUsername';
+import { MultipleFieldsError } from '../use-cases/errors/multipleFieldsError';
+
+type ObjectsBuildType = {
+  [key: string]: Either<Error, string>;
+};
 
 export class User {
   private createName(name: string): Either<InvalidNameError, string> {
@@ -33,5 +38,37 @@ export class User {
     return isValid ? right(githubUsername) : left(new InvalidGithubUsernameError(githubUsername));
   }
 
-  public build(data: UserCreateDto) {}
+  public build(data: UserCreateDto): Either<MultipleFieldsError, UserCreateDto> {
+    const objects: ObjectsBuildType = {
+      name: this.createName(data.name),
+      email: this.createEmail(data.email),
+      password: this.createPassword(data.password),
+      username: this.createUsername(data.username),
+      githubUsername: this.createGithubUsername(data.githubUsername),
+    };
+
+    const errors: { [key: string]: string }[] = [];
+
+    Object.keys(objects).forEach((either) => {
+      const field = objects[either];
+      if (field.isLeft()) {
+        errors.push({
+          [either]: field.value.message,
+        });
+      }
+    });
+
+    if (errors.length > 0) {
+      return left(new MultipleFieldsError(errors));
+    }
+
+    return right({
+      name: objects.name.value as string,
+      email: objects.email.value as string,
+      password: objects.password.value as string,
+      username: objects.username.value as string,
+      githubUsername: objects.githubUsername.value as string,
+      githubId: data.githubId,
+    });
+  }
 }
