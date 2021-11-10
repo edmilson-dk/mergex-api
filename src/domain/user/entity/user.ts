@@ -1,9 +1,10 @@
 import { Either, left, right } from '@shared/error-handler/either';
-import { isValidEmail, isValidName, isValidPassword } from '@shared/validators';
+import { isValidEmail, isValidGithubUsername, isValidName, isValidPassword } from '@shared/validators';
 import { UserCreateDto } from '../dtos';
 import { InvalidEmailError } from '../use-cases/errors/invalidEmailError';
 import { InvalidNameError } from '../use-cases/errors/invalidNameError';
 import { InvalidPasswordError } from '../use-cases/errors/invalidPassword';
+import { InvalidUsernameError } from '../use-cases/errors/invalidUsername';
 
 export class User {
   private createName(name: string): Either<InvalidNameError, string> {
@@ -19,6 +20,11 @@ export class User {
   private createPassword(password: string): Either<InvalidPasswordError, string> {
     const isValid = isValidPassword(password);
     return isValid ? right(password) : left(new InvalidPasswordError(password));
+  }
+
+  private createUsername(username: string): Either<InvalidUsernameError, string> {
+    const isValid = isValidGithubUsername(username);
+    return isValid ? right(username) : left(new InvalidUsernameError(username));
   }
 
   public build(data: UserCreateDto) {}
