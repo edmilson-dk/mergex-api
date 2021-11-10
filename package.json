@@ -47,9 +47,9 @@
   },
   "_moduleAliases": {
     "@domain": "dist/domain",
-    "@infra": "dist/infra",
-    "@shared": "dist/shared",
-    "@main": "dist/main",
-    "@application": "dist/application"
+    "@infra": "dist/infra/",
+    "@shared": "dist/shared/",
+    "@main": "dist/main/",
+    "@application": "dist/application/"
   }
 }
