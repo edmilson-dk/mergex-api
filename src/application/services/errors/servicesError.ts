@@ -1,0 +1,3 @@
+interface ServicesError {
+  message: string;
+}
