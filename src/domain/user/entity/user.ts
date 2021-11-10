@@ -1,7 +1,8 @@
 import { Either, left, right } from '@shared/error-handler/either';
-import { isValidEmail, isValidGithubUsername, isValidName, isValidPassword } from '@shared/validators';
+import { isValidEmail, isValidGithubUsername, isValidName, isValidPassword, isValidUsername } from '@shared/validators';
 import { UserCreateDto } from '../dtos';
 import { InvalidEmailError } from '../use-cases/errors/invalidEmailError';
+import { InvalidGithubUsernameError } from '../use-cases/errors/invalidGithubUsername';
 import { InvalidNameError } from '../use-cases/errors/invalidNameError';
 import { InvalidPasswordError } from '../use-cases/errors/invalidPassword';
 import { InvalidUsernameError } from '../use-cases/errors/invalidUsername';
@@ -23,8 +24,13 @@ export class User {
   }
 
   private createUsername(username: string): Either<InvalidUsernameError, string> {
-    const isValid = isValidGithubUsername(username);
+    const isValid = isValidUsername(username);
     return isValid ? right(username) : left(new InvalidUsernameError(username));
+  }
+
+  private createGithubUsername(githubUsername: string): Either<InvalidGithubUsernameError, string> {
+    const isValid = isValidGithubUsername(githubUsername);
+    return isValid ? right(githubUsername) : left(new InvalidGithubUsernameError(githubUsername));
   }
 
   public build(data: UserCreateDto) {}
