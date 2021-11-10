@@ -11,17 +11,22 @@ datasource db {
 }
 
 model User {
-  id             String  @id @default(uuid())
-  name           String  @db.VarChar(255)
-  username       String  @db.VarChar(255)
-  email          String  @db.VarChar(255)
-  password       String  @db.VarChar(255)
+  id             String    @id @default(uuid())
+  name           String    @db.VarChar(255)
+  username       String    @db.VarChar(255)
+  email          String    @db.VarChar(255)
+  password       String    @db.VarChar(255)
   githubId       Int
-  githubUsername String  @db.VarChar(255)
-  isDisabled     Boolean @default(false)
+  githubUsername String    @db.VarChar(255)
+  githubProfile  String
+  bio            String    @db.Text
+  avatarUrl      String?
+  bannerUrl      String?
+  website        String?
+  location       String?
+  dateOfBirth    DateTime?
 
-  // user profile
-  profile Profile?
+  isDisabled Boolean @default(false)
 
   // user posts interactions
   posts    Post[]
@@ -40,26 +45,6 @@ model User {
 
   @@unique([username, githubId, email])
   @@map("users")
-}
-
-model Profile {
-  id     String @id @default(uuid())
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  userId String @unique
-
-  avatarUrl      String?
-  bannerUrl      String?
-  githubProfile  String?
-  bio            String    @db.Text
-  followingCount Int       @default(0)
-  followersCount Int       @default(0)
-  website        String?
-  location       String?
-  dateOfBirth    DateTime?
-
-  createdAt DateTime @default(now())
-
-  @@map("profiles")
 }
 
 model Relationship {
