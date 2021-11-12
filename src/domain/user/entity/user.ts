@@ -1,12 +1,20 @@
 import { Either, left, right } from '@shared/error-handler/either';
-import { isValidEmail, isValidGithubUsername, isValidName, isValidPassword, isValidUsername } from '@shared/validators';
+import {
+  isValidBio,
+  isValidEmail,
+  isValidGithubUsername,
+  isValidName,
+  isValidPassword,
+  isValidUsername,
+} from '@shared/validators';
 import { UserCreateDto } from '../dtos';
-import { InvalidEmailError } from '../use-cases/errors/invalidEmailError';
-import { InvalidGithubUsernameError } from '../use-cases/errors/invalidGithubUsername';
-import { InvalidNameError } from '../use-cases/errors/invalidNameError';
-import { InvalidPasswordError } from '../use-cases/errors/invalidPassword';
-import { InvalidUsernameError } from '../use-cases/errors/invalidUsername';
-import { MultipleFieldsError } from '../use-cases/errors/multipleFieldsError';
+import { InvalidBioError } from './errors/invalidBioError';
+import { InvalidEmailError } from './errors/invalidEmailError';
+import { InvalidGithubUsernameError } from './errors/invalidGithubUsername';
+import { InvalidNameError } from './errors/invalidNameError';
+import { InvalidPasswordError } from './errors/invalidPassword';
+import { InvalidUsernameError } from './errors/invalidUsername';
+import { CreateUserEntityResponse } from './ports/responses';
 
 type ObjectsBuildType = {
   [key: string]: Either<Error, string>;
@@ -38,28 +46,43 @@ export class User {
     return isValid ? right(githubUsername) : left(new InvalidGithubUsernameError(githubUsername));
   }
 
-  public build(data: UserCreateDto): Either<MultipleFieldsError, UserCreateDto> {
+  private createBio(bio: string): Either<InvalidBioError, string> {
+    const isValid = isValidBio(bio);
+    return isValid ? right(bio) : left(new InvalidBioError(bio));
+  }
+
+  public build(data: UserCreateDto): CreateUserEntityResponse {
     const objects: ObjectsBuildType = {
       name: this.createName(data.name),
       email: this.createEmail(data.email),
       password: this.createPassword(data.password),
       username: this.createUsername(data.username),
       githubUsername: this.createGithubUsername(data.githubUsername),
+      bio: this.createBio(data.bio),
     };
 
-    const errors: { [key: string]: string }[] = [];
+    if (objects.name.isLeft()) {
+      return left(new InvalidNameError(data.name));
+    }
 
-    Object.keys(objects).forEach((either) => {
-      const field = objects[either];
-      if (field.isLeft()) {
-        errors.push({
-          [either]: field.value.message,
-        });
-      }
-    });
+    if (objects.email.isLeft()) {
+      return left(new InvalidEmailError(data.email));
+    }
 
-    if (errors.length > 0) {
-      return left(new MultipleFieldsError(errors));
+    if (objects.password.isLeft()) {
+      return left(new InvalidPasswordError(data.password));
+    }
+
+    if (objects.username.isLeft()) {
+      return left(new InvalidUsernameError(data.username));
+    }
+
+    if (objects.githubUsername.isLeft()) {
+      return left(new InvalidGithubUsernameError(data.githubUsername));
+    }
+
+    if (objects.bio.isLeft()) {
+      return left(new InvalidBioError(data.bio));
     }
 
     return right({
@@ -69,6 +92,9 @@ export class User {
       username: objects.username.value as string,
       githubUsername: objects.githubUsername.value as string,
       githubId: data.githubId,
+      avatarUrl: data.avatarUrl,
+      bio: data.bio,
+      githubProfile: data.githubProfile,
     });
   }
 }
