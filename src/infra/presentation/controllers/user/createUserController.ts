@@ -1,6 +1,7 @@
+import { Request, Response } from 'express';
+
 import { IGithubServices } from '@application/services/github';
 import { IUserUseCases } from '@domain/user/use-cases';
-import { Request, Response } from 'express';
 
 export class CreateUserController {
   private readonly userUseCase: IUserUseCases;
@@ -24,7 +25,7 @@ export class CreateUserController {
       });
 
       if (githubUserInfosOrError.isLeft()) {
-        return res.status(400).send({ message: githubUserInfosOrError.value });
+        return res.status(400).send({ message: githubUserInfosOrError.value.message });
       }
 
       const githubUserInfos = githubUserInfosOrError.value;
@@ -42,7 +43,7 @@ export class CreateUserController {
       });
 
       if (userOrError.isLeft()) {
-        return res.status(400).send({ message: userOrError.value });
+        return res.status(400).send({ message: userOrError.value.message });
       }
 
       return res.status(201).send({
