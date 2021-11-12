@@ -1,5 +1,7 @@
 import { Either } from '@shared/error-handler/either';
-import { ExistingUserError } from '../errors/existingUserError';
+import { ExistingByEmailUserError } from '../errors/existingByEmailUserError';
+import { ExistingByGithubIdUserError } from '../errors/existingByGithubIdUserError';
 
 export type CreateUserUseCaseSuccess = { id: string };
-export type CreateUserUseCaseResponse = Either<ExistingUserError, CreateUserUseCaseSuccess>;
+export type CreateUserUseCaseFailure = ExistingByGithubIdUserError | ExistingByEmailUserError;
+export type CreateUserUseCaseResponse = Either<CreateUserUseCaseFailure, CreateUserUseCaseSuccess>;

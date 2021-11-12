@@ -4,7 +4,7 @@ import { Either } from '@shared/error-handler/either';
 
 export type GetUserInfosSuccess = {
   githubUsername: string;
-  githubId: number;
+  githubId: string;
   githubProfile: string;
   githubAvatarUrl: string;
 };
