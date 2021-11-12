@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import { app } from './setup/app';
+import { routes } from '@infra/routes';
 
 const PORT = Number(process.env.PORT) || 8080;
 
@@ -16,6 +17,8 @@ app.get('/github/callback', (request, response) => {
 
   return response.json(code);
 });
+
+app.use('/v1', routes);
 
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
