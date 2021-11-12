@@ -56,7 +56,7 @@ export class GithubServicesByApi implements IGithubServices {
 
     return right({
       githubAvatarUrl: userInfos.avatar_url,
-      githubId: userInfos.id,
+      githubId: userInfos.id.toString(),
       githubProfile: userInfos.url,
       githubUsername: userInfos.login,
     });

@@ -1,12 +1,12 @@
 import { UserCreateDto } from '@domain/user/dtos';
 
-type FindUserResponse = {
+export type FindUserRepositoryResponse = {
   id: string | null;
   githubId: string | null;
 };
 
 export interface IUserRepository {
-  findByGithubId(githubId: string): Promise<FindUserResponse>;
-  findByEmail(email: string): Promise<FindUserResponse>;
+  findByGithubId(githubId: string): Promise<FindUserRepositoryResponse>;
+  findByEmail(email: string): Promise<FindUserRepositoryResponse>;
   createUser(data: UserCreateDto): Promise<{ id: string }>;
 }

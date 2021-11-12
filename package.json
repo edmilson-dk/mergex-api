@@ -9,7 +9,7 @@
     "build": "npm run migrate && rm -rf dist && tsc",
     "migrate": "npx prisma migrate deploy",
     "start": "node dist/main/index.js",
-    "dev": "tsc && npx ts-node-dev --respawn --pretty --transpile-only src/main/index.ts",
+    "dev": "tsc && ts-node-dev --exit-child  src/**/*.ts",
     "format": "prettier --write \"src/**/*.ts\"",
     "lint": "tslint -p tsconfig.json",
     "postgit": "npm run format && npm run lint && git push"

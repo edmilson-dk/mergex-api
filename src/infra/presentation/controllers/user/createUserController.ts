@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 
 import { IGithubServices } from '@application/services/github';
 import { IUserUseCases } from '@domain/user/use-cases';
+import { createJWT } from '@shared/security';
 
 export class CreateUserController {
   private readonly userUseCase: IUserUseCases;
@@ -46,11 +47,21 @@ export class CreateUserController {
         return res.status(400).send({ message: userOrError.value.message });
       }
 
+      const user = userOrError.value;
+
+      const token = createJWT({
+        email,
+        id: user.id,
+        githubId: githubUserInfos.githubId,
+      });
+
       return res.status(201).send({
         message: 'User created successfully',
-        data: userOrError.value,
+        userId: user.id,
+        token,
       });
     } catch (err) {
+      console.log(err);
       return res.status(500).send({ message: err });
     }
   }
