@@ -5,6 +5,7 @@ import { IUserUseCases } from '@domain/user/use-cases';
 import { ExistingByGithubIdUserError } from '@domain/user/use-cases/errors/existingByGithubIdUserError';
 import { CreateUserUseCaseResponse } from '@domain/user/use-cases/ports/responses';
 import { left, right } from '@shared/error-handler/either';
+import { hashValue } from '@shared/security';
 
 export class UserUseCases implements IUserUseCases {
   private readonly userRepository: IUserRepository;
@@ -34,7 +35,12 @@ export class UserUseCases implements IUserUseCases {
       return left(new ExistingByGithubIdUserError(userByEmail.githubId));
     }
 
-    const userCreated = await this.userRepository.createUser(userBuilded);
+    const hashedPassword = await hashValue(userBuilded.password);
+
+    const userCreated = await this.userRepository.createUser({
+      ...userBuilded,
+      password: hashedPassword,
+    });
 
     return right(userCreated);
   }
