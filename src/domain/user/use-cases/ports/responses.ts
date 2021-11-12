@@ -1,9 +1,5 @@
 import { Either } from '@shared/error-handler/either';
-import { InvalidEmailError } from '../errors/invalidEmailError';
-import { InvalidNameError } from '../errors/invalidNameError';
-import { InvalidPasswordError } from '../errors/invalidPassword';
-import { InvalidUsernameError } from '../errors/invalidUsername';
+import { ExistingUserError } from '../errors/existingUserError';
 
-export type CreateUserSuccess = { id: string };
-export type CreateUserFailure = InvalidEmailError | InvalidNameError | InvalidPasswordError | InvalidUsernameError;
-export type CreateUserResponse = Either<CreateUserFailure, CreateUserSuccess>;
+export type CreateUserUseCaseSuccess = { id: string };
+export type CreateUserUseCaseResponse = Either<ExistingUserError, CreateUserUseCaseSuccess>;

@@ -1,6 +1,6 @@
 import { UserCreateDto } from '../dtos';
-import { CreateUserResponse } from './ports/responses';
+import { CreateUserUseCaseResponse } from './ports/responses';
 
 export interface IUserUseCases {
-  createUser: (data: UserCreateDto) => Promise<CreateUserResponse>;
+  createUser: (data: UserCreateDto) => Promise<CreateUserUseCaseResponse>;
 }
