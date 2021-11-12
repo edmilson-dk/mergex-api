@@ -9,13 +9,13 @@
     "build": "npm run migrate && rm -rf dist && tsc",
     "migrate": "npx prisma migrate deploy",
     "start": "node dist/main/index.js",
-    "dev": "npx ts-node-dev --respawn --pretty --transpile-only src/main/index.ts",
+    "dev": "tsc && npx ts-node-dev --respawn --pretty --transpile-only src/main/index.ts",
     "format": "prettier --write \"src/**/*.ts\"",
     "lint": "tslint -p tsconfig.json",
     "postgit": "npm run format && npm run lint && git push"
   },
   "dependencies": {
-    "@prisma/client": "3.4.1",
+    "@prisma/client": "^3.4.2",
     "axios": "^0.24.0",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
@@ -46,7 +46,7 @@
     "typescript": "^4.4.4"
   },
   "_moduleAliases": {
-    "@domain": "dist/domain",
+    "@domain": "dist/domain/",
     "@infra": "dist/infra/",
     "@shared": "dist/shared/",
     "@main": "dist/main/",
