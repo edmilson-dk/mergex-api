@@ -14,7 +14,7 @@ type IUserInfosResponse = {
   login: string;
   id: number;
   avatar_url: string;
-  url: string;
+  html_url: string;
 };
 
 export class GithubServicesByApi implements IGithubServices {
@@ -57,7 +57,7 @@ export class GithubServicesByApi implements IGithubServices {
     return right({
       githubAvatarUrl: userInfos.avatar_url,
       githubId: userInfos.id.toString(),
-      githubProfile: userInfos.url,
+      githubProfile: userInfos.html_url,
       githubUsername: userInfos.login,
     });
   }

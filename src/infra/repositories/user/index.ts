@@ -5,16 +5,16 @@ import { prismaDB } from '@infra/database/prisma';
 export class PrismaPgUserRepository implements IUserRepository {
   async findByGithubId(githubId: string): Promise<FindUserRepositoryResponse> {
     const user = await prismaDB.user.findFirst({
-      where: { githubId },
+      where: { github_id: githubId },
       select: {
         id: true,
-        githubId: true,
+        github_id: true,
       },
     });
 
     return {
       id: user?.id || null,
-      githubId: user?.githubId || null,
+      githubId: user?.github_id || null,
     };
   }
 
@@ -23,19 +23,28 @@ export class PrismaPgUserRepository implements IUserRepository {
       where: { email },
       select: {
         id: true,
-        githubId: true,
+        github_id: true,
       },
     });
 
     return {
       id: user?.id || null,
-      githubId: user?.githubId || null,
+      githubId: user?.github_id || null,
     };
   }
 
   async createUser(data: UserCreateDto): Promise<{ id: string }> {
     const user = await prismaDB.user.create({
-      data: { ...data },
+      data: {
+        name: data.name,
+        username: data.username,
+        email: data.email,
+        github_id: data.githubId,
+        bio: data.bio,
+        github_profile: data.githubProfile,
+        github_username: data.githubUsername,
+        password: data.password,
+      },
       select: { id: true },
     });
 

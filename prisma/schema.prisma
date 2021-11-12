@@ -11,22 +11,22 @@ datasource db {
 }
 
 model User {
-  id             String    @id @default(uuid())
-  name           String    @db.VarChar(255)
-  username       String    @unique @db.VarChar(255)
-  email          String    @unique @db.VarChar(255)
-  password       String    @db.VarChar(255)
-  githubId       String    @unique
-  githubUsername String    @unique @db.VarChar(255)
-  githubProfile  String
-  bio            String    @db.Text
-  avatarUrl      String?
-  bannerUrl      String?
-  website        String?
-  location       String?
-  dateOfBirth    DateTime?
+  id              String    @id @default(uuid())
+  name            String    @db.VarChar(255)
+  username        String    @unique @db.VarChar(255)
+  email           String    @unique @db.VarChar(255)
+  password        String    @db.VarChar(255)
+  github_id       String    @unique
+  github_username String    @unique @db.VarChar(255)
+  github_profile  String
+  bio             String    @db.Text
+  avatar_url      String?
+  banner_rl       String?
+  website         String?
+  location        String?
+  date_of_birth   DateTime?
 
-  isDisabled Boolean @default(false)
+  is_disabled Boolean @default(false)
 
   // user posts interactions
   posts    Post[]
@@ -40,32 +40,32 @@ model User {
   // user following relationship
   following Relationship[] @relation("followers")
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
-  @@unique([username, githubId, email])
+  @@unique([username, github_id, email])
   @@map("users")
 }
 
 model Relationship {
-  id         String @id @default(uuid())
-  followerId String
-  followedId String
+  id          String @id @default(uuid())
+  follower_id String
+  followed_id String
 
-  follower User @relation("followers", fields: [followerId], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  followed User @relation("following", fields: [followedId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  follower User @relation("followers", fields: [follower_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  followed User @relation("following", fields: [followed_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 
-  createdAt DateTime @default(now())
+  created_at DateTime @default(now())
   @@map("followers")
 }
 
 model Post {
-  id        String   @id @default(uuid())
-  content   String   @db.Text
-  authorId  String
-  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id         String   @id @default(uuid())
+  content    String   @db.Text
+  author_id  String
+  author     User     @relation(fields: [author_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
   comments PostComments[]
   likes    PostLikes[]
@@ -75,32 +75,36 @@ model Post {
 }
 
 model PostLikes {
-  id        String   @id @default(uuid())
-  postId    String
-  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  authorId  String
-  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  createdAt DateTime @default(now())
+  id         String   @id @default(uuid())
+  post_id    String
+  post       Post     @relation(fields: [post_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  author_id  String
+  author     User     @relation(fields: [author_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  created_at DateTime @default(now())
+
+  @@map("posts_likes")
 }
 
 model PostDisLikes {
-  id        String   @id @default(uuid())
-  postId    String
-  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  authorId  String
-  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  createdAt DateTime @default(now())
+  id         String   @id @default(uuid())
+  post_id    String
+  post       Post     @relation(fields: [post_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  author_id  String
+  author     User     @relation(fields: [author_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  created_at DateTime @default(now())
+
+  @@map("posts_dislikes")
 }
 
 model PostComments {
-  id        String   @id @default(uuid())
-  postId    String
-  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  authorId  String
-  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  content   String   @db.Text
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id         String   @id @default(uuid())
+  post_id    String
+  post       Post     @relation(fields: [post_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  author_id  String
+  author     User     @relation(fields: [author_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  content    String   @db.Text
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
-  @@map("post_comments")
+  @@map("posts_comments")
 }
