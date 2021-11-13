@@ -1,5 +1,7 @@
-import { FindUserRepositoryResponse, IUserRepository } from '@application/repositories/user';
+import { IUserRepository } from '@application/repositories/user';
+import { FindUserRepositoryResponse, GetUserStoredRepositoryResponse } from '@application/repositories/user/ports';
 import { UserCreateDto } from '@domain/user/dtos';
+import { UserMappers } from '@domain/user/mappers';
 import { prismaDB } from '@infra/database/prisma';
 
 export class PrismaPgUserRepository implements IUserRepository {
@@ -64,5 +66,27 @@ export class PrismaPgUserRepository implements IUserRepository {
       id: user?.id || null,
       githubId: user?.github_id || null,
     };
+  }
+
+  async getUserByEmail(email: string): Promise<GetUserStoredRepositoryResponse> {
+    const user = await prismaDB.user.findFirst({
+      where: { email },
+    });
+
+    if (!user) return null;
+
+    const response = UserMappers.fromDbToUserStoredDto(user);
+    return response;
+  }
+
+  async getUserByGithubId(githubId: string): Promise<GetUserStoredRepositoryResponse> {
+    const user = await prismaDB.user.findFirst({
+      where: { github_id: githubId },
+    });
+
+    if (!user) return null;
+
+    const response = UserMappers.fromDbToUserStoredDto(user);
+    return response;
   }
 }
