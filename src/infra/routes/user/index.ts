@@ -1,7 +1,13 @@
 import { Router } from 'express';
 
-import { makeCreateUserController } from '@infra/factories/user';
+import {
+  makeAuthUserByEmailController,
+  makeAuthUserByGithubController,
+  makeCreateUserController,
+} from '@infra/factories/user';
 
 export const userRoutes = Router();
 
-userRoutes.post('/authenticate', makeCreateUserController);
+userRoutes.post('/register', makeCreateUserController);
+userRoutes.post('/login/github', makeAuthUserByGithubController);
+userRoutes.post('/login/email', makeAuthUserByEmailController);
