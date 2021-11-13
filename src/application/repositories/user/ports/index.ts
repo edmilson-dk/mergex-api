@@ -5,7 +5,4 @@ export type FindUserRepositoryResponse = {
   githubId: string | null;
 };
 
-export type GetUserStoredRepositoryResponse = UserStoredDto & {
-  password: string;
-  id: string;
-};
+export type GetUserStoredRepositoryResponse = UserStoredDto | null;
