@@ -1,9 +1,11 @@
 import axios from 'axios';
+
 import { IGithubServices } from '@application/services/github';
 import { GetUserInfosParams } from '@application/services/github/ports/requests';
 import { GetUserInfosResponse } from '@application/services/github/ports/responses';
 import { left, right } from '@shared/error-handler/either';
 import { InvalidGithubCodeError } from '@application/services/github/errors/invalidGithubCodeError';
+import { ENVS } from '@main/config/constants';
 
 type IAccessTokenResponse = {
   access_token: string;
@@ -20,12 +22,12 @@ type IUserInfosResponse = {
 export class GithubServicesByApi implements IGithubServices {
   private async getAccessToken(code: string): Promise<string | null> {
     const { data: accessTokenResponse } = await axios.post<IAccessTokenResponse>(
-      process.env.GITHUB_ACCESS_TOKEN_URL as string,
+      ENVS.GITHUB_ACCESS_TOKEN_URL as string,
       null,
       {
         params: {
-          client_id: process.env.GITHUB_CLIENT_ID,
-          client_secret: process.env.GITHUB_CLIENT_SECRET,
+          client_id: ENVS.GITHUB_CLIENT_ID,
+          client_secret: ENVS.GITHUB_CLIENT_SECRET,
           code,
         },
         headers: {
@@ -46,7 +48,7 @@ export class GithubServicesByApi implements IGithubServices {
       return left(new InvalidGithubCodeError(code));
     }
 
-    const response = await axios.get<IUserInfosResponse>(process.env.GITHUB_API_USER_URL as string, {
+    const response = await axios.get<IUserInfosResponse>(ENVS.GITHUB_API_USER_URL as string, {
       headers: {
         authorization: `Bearer ${accessTokenOrNull}`,
       },
