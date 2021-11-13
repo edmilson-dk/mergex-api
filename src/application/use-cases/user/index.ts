@@ -1,6 +1,7 @@
 import { IUserRepository } from '@application/repositories/user';
 import { UserCreateDto } from '@domain/user/dtos';
 import { User } from '@domain/user/entity/user';
+import { UserMappers } from '@domain/user/mappers';
 import { IUserUseCases } from '@domain/user/use-cases';
 import { ExistingByGithubIdUserError } from '@domain/user/use-cases/errors/existingByGithubIdUserError';
 import { CreateUserUseCaseResponse } from '@domain/user/use-cases/ports/responses';
@@ -37,11 +38,18 @@ export class UserUseCases implements IUserUseCases {
 
     const hashedPassword = await hashValue(userBuilded.password);
 
-    const userCreated = await this.userRepository.createUser({
+    const userFormatted = UserMappers.toCreateUserDto({
       ...userBuilded,
       password: hashedPassword,
     });
 
+    const userCreated = await this.userRepository.createUser(userFormatted);
+
     return right(userCreated);
+  }
+
+  async existsUsername(username: string): Promise<boolean> {
+    const user = await this.userRepository.findByUsername(username);
+    return user.id ? true : false;
   }
 }
