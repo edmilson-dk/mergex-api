@@ -2,12 +2,12 @@
 
 ## To-do
 
-- [ ] Criação de usuário usando o codígo de autenticação do github e dados extras
-  - [ ] Email, Name, Username, Bio, Password
-  - [ ] Pegar dados do github do usuário e salvar
-  - [ ] Gerar token de autenticação
-  - [ ] O usuário não pode criar outro usuário com o mesmo email ou github_id
-  - [ ] O usuário não pdoe ser criado com um username que já existe
+- [x] Criação de usuário usando o codígo de autenticação do github e dados extras
+  - [x] Email, Name, Username, Bio, Password
+  - [x] Pegar dados do github do usuário e salvar
+  - [x] Gerar token de autenticação
+  - [x] O usuário não pode criar outro usuário com o mesmo email ou github_id
+  - [ ] O usuário não pode ser criado com um username que já existe
 - [ ] Login de usuário usando o github_id
 - [ ] Criação de profile do usuário
   - [ ] Após a criação do usuário, o usuário deve ser redirecionado para a página de profile
