@@ -21,7 +21,7 @@ model User {
   github_profile  String
   bio             String    @db.Text
   avatar_url      String?
-  banner_rl       String?
+  banner_url      String?
   website         String?
   location        String?
   date_of_birth   DateTime?
