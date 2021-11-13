@@ -1,9 +1,14 @@
-import { UserCreateDto, UserStoredDto } from '../dtos';
-import { CreateUserUseCaseResponse, GetUserByEmailRequest, GetUserByGithubRequest } from './ports';
+import { UserCreateDto } from '../dtos';
+import {
+  CreateUserUseCaseResponse,
+  AuthUserByEmailRequest,
+  AuthUserByGithubRequest,
+  AuthUserByEmailUseCaseResponse,
+  AuthUserByGithubUseCaseResponse,
+} from './ports';
 
 export interface IUserUseCases {
   createUser: (data: UserCreateDto) => Promise<CreateUserUseCaseResponse>;
-  existsUsername: (username: string) => Promise<boolean>;
-  getUserByEmail: (data: GetUserByEmailRequest) => Promise<UserStoredDto>;
-  getUserByGithub: (data: GetUserByGithubRequest) => Promise<UserStoredDto>;
+  authUserByEmail: (data: AuthUserByEmailRequest) => Promise<AuthUserByEmailUseCaseResponse>;
+  authUserByGithubId: (data: AuthUserByGithubRequest) => Promise<AuthUserByGithubUseCaseResponse>;
 }
