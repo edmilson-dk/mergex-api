@@ -7,8 +7,9 @@
   - [x] Pegar dados do github do usuário e salvar
   - [x] Gerar token de autenticação
   - [x] O usuário não pode criar outro usuário com o mesmo email ou github_id
-  - [ ] O usuário não pode ser criado com um username que já existe
-- [ ] Login de usuário usando o github_id
+  - [x] O usuário não pode ser criado com um username que já existe
+- [x] Login de usuário usando o github_id e senha
+- [x] Login de usuário usando o email e senha
 - [ ] Criação de profile do usuário
   - [ ] Após a criação do usuário, o usuário deve ser redirecionado para a página de profile
   - [ ] O usuário pode usar o mesmo avatar que está no github ou pode escolher um avatar diferente
