@@ -50,4 +50,19 @@ export class PrismaPgUserRepository implements IUserRepository {
 
     return { id: user.id };
   }
+
+  async findByUsername(username: string): Promise<FindUserRepositoryResponse> {
+    const user = await prismaDB.user.findFirst({
+      where: { username },
+      select: {
+        id: true,
+        github_id: true,
+      },
+    });
+
+    return {
+      id: user?.id || null,
+      githubId: user?.github_id || null,
+    };
+  }
 }
