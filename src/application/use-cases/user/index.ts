@@ -1,14 +1,24 @@
 import { IUserRepository } from '@application/repositories/user';
-import { UserCreateDto } from '@domain/user/dtos';
+import { UserCreateDto, UserStoredDto } from '@domain/user/dtos';
 import { User } from '@domain/user/entity/user';
 import { UserMappers } from '@domain/user/mappers';
 import { IUserUseCases } from '@domain/user/use-cases';
 import { ExistingByEmailUserError } from '@domain/user/use-cases/errors/existingByEmailUserError';
 import { ExistingByGithubIdUserError } from '@domain/user/use-cases/errors/existingByGithubIdUserError';
 import { ExistingByUsernameUserError } from '@domain/user/use-cases/errors/existingByUsernameError';
-import { CreateUserUseCaseResponse } from '@domain/user/use-cases/ports/responses';
+import { InvalidUserCredentialsError } from '@domain/user/use-cases/errors/invalidUserCredentialsError';
+import { NotExistsUserByEmailError } from '@domain/user/use-cases/errors/notExistsUserByEmailError';
+import { NotExistsUserByGithubIdError } from '@domain/user/use-cases/errors/notExistsUserByGithubIdError';
+import {
+  AuthUserByEmailRequest,
+  AuthUserByEmailUseCaseResponse,
+  AuthUserByGithubRequest,
+  AuthUserByGithubUseCaseResponse,
+  CreateUserUseCaseResponse,
+} from '@domain/user/use-cases/ports/';
 import { left, right } from '@shared/error-handler/either';
-import { hashValue } from '@shared/security';
+import { compareValue, hashValue } from '@shared/security';
+import { isValidEmail, isValidPassword } from '@shared/validators';
 
 export class UserUseCases implements IUserUseCases {
   private readonly userRepository: IUserRepository;
@@ -54,8 +64,54 @@ export class UserUseCases implements IUserUseCases {
     return right(userCreated);
   }
 
-  async existsUsername(username: string): Promise<boolean> {
-    const user = await this.userRepository.findByUsername(username);
-    return user.id ? true : false;
+  async authUserByEmail(data: AuthUserByEmailRequest): Promise<AuthUserByEmailUseCaseResponse> {
+    const emailIsValid = isValidEmail(data.email);
+    const passwordIsValid = isValidPassword(data.password);
+
+    if (!emailIsValid || !passwordIsValid) {
+      return left(new InvalidUserCredentialsError());
+    }
+
+    const user = await this.userRepository.getUserByEmail(data.email);
+
+    if (!user) {
+      return left(new NotExistsUserByEmailError(data.email));
+    }
+
+    const hashedPassword = user.password;
+    const isPasswordCorrect = await compareValue(data.password, hashedPassword);
+
+    if (!isPasswordCorrect) {
+      return left(new InvalidUserCredentialsError());
+    }
+
+    const userDto = UserMappers.toUserDto(user);
+
+    return right(userDto);
+  }
+
+  async authUserByGithubId(data: AuthUserByGithubRequest): Promise<AuthUserByGithubUseCaseResponse> {
+    const passwordIsValid = isValidPassword(data.password);
+
+    if (!passwordIsValid) {
+      return left(new InvalidUserCredentialsError());
+    }
+
+    const user = await this.userRepository.getUserByGithubId(data.githubId);
+
+    if (!user) {
+      return left(new NotExistsUserByGithubIdError(data.githubId));
+    }
+
+    const hashedPassword = user.password;
+    const isPasswordCorrect = await compareValue(data.password, hashedPassword);
+
+    if (!isPasswordCorrect) {
+      return left(new InvalidUserCredentialsError());
+    }
+
+    const userDto = UserMappers.toUserDto(user);
+
+    return right(userDto);
   }
 }
