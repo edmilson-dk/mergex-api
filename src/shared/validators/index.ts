@@ -8,10 +8,8 @@ const nameRegex = /^[a-zA-Z0-9 ]+$/;
 const userNameRegex = /^@[a-zA-Z0-9_]{2,30}$/;
 // password not contain space
 const passwordRegex = /^[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]{8,30}$/;
-const bioRegex = /^[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]{0,200}$/;
 // github official username validator
 const githubUsernameRegex = /^[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}$/i;
-const postContentRegex = /^[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]{1,500}$/;
 
 const emailSchema = Joi.object({
   email: Joi.string().email().required().regex(new RegExp(emailRegex)),
@@ -26,13 +24,13 @@ const passwordSchema = Joi.object({
   password: Joi.string().required().regex(new RegExp(passwordRegex)).min(8).max(30),
 });
 const bioSchema = Joi.object({
-  bio: Joi.string().required().regex(new RegExp(bioRegex)).min(0).max(200),
+  bio: Joi.string().required().min(0).max(200),
 });
 const githubUsernameSchema = Joi.object({
   githubUsername: Joi.string().required().regex(new RegExp(githubUsernameRegex)).min(1).max(38),
 });
 const postContentSchema = Joi.object({
-  content: Joi.string().required().regex(new RegExp(postContentRegex)).min(1).max(500),
+  content: Joi.string().required().min(1).max(500),
 });
 
 export function isValidEmail(email: string): boolean {
