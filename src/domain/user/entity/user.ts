@@ -14,7 +14,7 @@ import { InvalidGithubUsernameError } from './errors/invalidGithubUsername';
 import { InvalidNameError } from './errors/invalidNameError';
 import { InvalidPasswordError } from './errors/invalidPassword';
 import { InvalidUsernameError } from './errors/invalidUsername';
-import { CreateUserEntityResponse } from './ports/responses';
+import { CreateUserEntityResponse } from './ports';
 
 type ObjectsBuildType = {
   [key: string]: Either<Error, string>;
