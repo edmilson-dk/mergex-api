@@ -15,7 +15,8 @@
       "@main/*": ["main/*"],
       "@application/*": ["application/*"],
       "@shared/*": ["shared/*"]
-    }
+    },
+    "typeRoots": ["@types", "./node_modules/@types"]
   },
   "exclude": ["node_modules", "**/__tests__/*"],
   "include": ["src"]
