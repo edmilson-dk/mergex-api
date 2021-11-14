@@ -47,7 +47,7 @@ export class AuthUserByGithubController {
         githubId: githubUserInfos.githubId,
       });
 
-      return res.status(201).send({
+      return res.status(200).send({
         message: 'User by github auth success',
         user,
         token,

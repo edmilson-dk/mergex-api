@@ -34,7 +34,7 @@ export class AuthUserByEmailController {
         githubId: user.githubId,
       });
 
-      return res.status(201).send({
+      return res.status(200).send({
         message: 'User by email auth success',
         user,
         token,
