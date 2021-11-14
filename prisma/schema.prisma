@@ -48,12 +48,12 @@ model User {
 }
 
 model Relationship {
-  id          String @id @default(uuid())
+  id String @id @default(uuid())
+
+  follower    User   @relation("followers", fields: [follower_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  followed    User   @relation("following", fields: [followed_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
   follower_id String
   followed_id String
-
-  follower User @relation("followers", fields: [follower_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  followed User @relation("following", fields: [followed_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 
   created_at DateTime @default(now())
   @@map("followers")
@@ -62,8 +62,8 @@ model Relationship {
 model Post {
   id         String   @id @default(uuid())
   content    String   @db.Text
-  author_id  String
   author     User     @relation(fields: [author_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  author_id  String
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
@@ -76,10 +76,10 @@ model Post {
 
 model PostLikes {
   id         String   @id @default(uuid())
-  post_id    String
   post       Post     @relation(fields: [post_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  author_id  String
+  post_id    String
   author     User     @relation(fields: [author_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  author_id  String
   created_at DateTime @default(now())
 
   @@map("posts_likes")
@@ -87,10 +87,10 @@ model PostLikes {
 
 model PostDisLikes {
   id         String   @id @default(uuid())
-  post_id    String
   post       Post     @relation(fields: [post_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  author_id  String
+  post_id    String
   author     User     @relation(fields: [author_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  author_id  String
   created_at DateTime @default(now())
 
   @@map("posts_dislikes")
@@ -98,10 +98,10 @@ model PostDisLikes {
 
 model PostComments {
   id         String   @id @default(uuid())
-  post_id    String
   post       Post     @relation(fields: [post_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  author_id  String
+  post_id    String
   author     User     @relation(fields: [author_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  author_id  String
   content    String   @db.Text
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
