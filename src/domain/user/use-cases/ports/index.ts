@@ -1,4 +1,5 @@
 import { UserDbStoredDto, UserDto } from '@domain/user/dtos';
+import { CreateUserEntityFailure } from '@domain/user/entity/ports';
 import { Either } from '@shared/error-handler/either';
 import { ExistingByEmailUserError } from '../errors/existingByEmailUserError';
 import { ExistingByGithubIdUserError } from '../errors/existingByGithubIdUserError';
@@ -7,7 +8,7 @@ import { NotExistsUserByEmailError } from '../errors/notExistsUserByEmailError';
 import { NotExistsUserByGithubIdError } from '../errors/notExistsUserByGithubIdError';
 
 export type CreateUserUseCaseSuccess = { id: string };
-export type CreateUserUseCaseFailure = ExistingByGithubIdUserError | ExistingByEmailUserError;
+export type CreateUserUseCaseFailure = ExistingByGithubIdUserError | ExistingByEmailUserError | CreateUserEntityFailure;
 export type CreateUserUseCaseResponse = Either<CreateUserUseCaseFailure, CreateUserUseCaseSuccess>;
 
 export type AuthUserByEmailRequest = {
