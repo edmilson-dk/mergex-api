@@ -46,6 +46,7 @@ export class PrismaPgUserRepository implements IUserRepository {
         github_profile: data.githubProfile,
         github_username: data.githubUsername,
         password: data.password,
+        avatar_url: data.avatarUrl,
       },
       select: { id: true },
     });
