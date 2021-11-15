@@ -2,7 +2,7 @@ import { IPostRepository } from '@application/repositories/post';
 import { PostCreateDto } from '@domain/post/dtos';
 import { Post } from '@domain/post/entity/post';
 import { IPostUseCases } from '@domain/post/use-cases';
-import { CreatePostUseCaseResposense } from '@domain/post/use-cases/ports';
+import { CreatePostUseCaseResposense, GetAllUserPostsUseCaseResposense } from '@domain/post/use-cases/ports';
 import { left, right } from '@shared/error-handler/either';
 
 export class PostUseCases implements IPostUseCases {
@@ -10,6 +10,11 @@ export class PostUseCases implements IPostUseCases {
 
   constructor(postRepository: IPostRepository) {
     this.postRepository = postRepository;
+  }
+
+  async getAllUserPosts(userId: string): Promise<GetAllUserPostsUseCaseResposense> {
+    const posts = await this.postRepository.getPostsByUserId(userId);
+    return right(posts);
   }
 
   async createPost(data: PostCreateDto): Promise<CreatePostUseCaseResposense> {
