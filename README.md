@@ -17,7 +17,8 @@
   - [ ] O usário pode definir sua localização
   - [ ] O usuário pode definir sua data de nascimento
   - [ ] O usuário pode definir um link para o seu website
-- [ ] Criação de posts
-  - [ ] Apenas usuários autenticados podem criar posts
-  - [ ] Lista de posts deve ser ordenada por data de criação
+- [x] Criação de posts
+  - [x] Apenas usuários autenticados podem criar posts
+  - [x] Lista de posts deve ser ordenada por data de criação
+  - [ ] Fazer cache dos posts
   - [ ] O usuário pode deletar seu post

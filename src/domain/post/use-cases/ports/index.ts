@@ -9,3 +9,8 @@ export type CreatePostUseCaseResposense = Either<CreatePostUseCaseFailure, Creat
 export type GetAllUserPostsUseCaseSuccess = { posts: PostStoredDto[] };
 export type GetAllUserPostsUseCaseFailure = { posts: [] };
 export type GetAllUserPostsUseCaseResposense = Either<GetAllUserPostsUseCaseFailure, GetAllUserPostsUseCaseSuccess>;
+export type GetAllUserPostsUseCaseRequest = {
+  userId: string;
+  page: number;
+  limit: number;
+};

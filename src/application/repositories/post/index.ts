@@ -1,7 +1,7 @@
 import { PostCreateDto } from '@domain/post/dtos';
-import { GetAllUserPostsRepositoryResponse } from './ports';
+import { GetAllUserPostsRepositoryRequest, GetAllUserPostsRepositoryResponse } from './ports';
 
 export interface IPostRepository {
   createPost(data: PostCreateDto): Promise<{ id: string }>;
-  getPostsByUserId(userId: string): Promise<GetAllUserPostsRepositoryResponse>;
+  getPostsByUserId(data: GetAllUserPostsRepositoryRequest): Promise<GetAllUserPostsRepositoryResponse>;
 }
