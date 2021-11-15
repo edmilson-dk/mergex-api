@@ -1,5 +1,4 @@
-import { GetUserInfosParams } from './ports/requests';
-import { GetUserInfosResponse } from './ports/responses';
+import { GetUserInfosResponse, GetUserInfosParams } from './ports/index';
 
 export interface IGithubServices {
   getUserInfos(data: GetUserInfosParams): Promise<GetUserInfosResponse>;
