@@ -8,4 +8,6 @@ export type PostStoredDto = {
   author_id: string;
   content: string;
   created_at: Date;
+  likes: { id: string }[];
+  dislikes: { id: string }[];
 };

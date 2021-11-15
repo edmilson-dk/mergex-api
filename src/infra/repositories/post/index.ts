@@ -16,6 +16,18 @@ export class PrismaPgPostRepository implements IPostRepository {
       skip: (page - 1) * data.limit,
       take: limit,
       orderBy: { created_at: 'desc' },
+      select: {
+        id: true,
+        content: true,
+        author_id: true,
+        created_at: true,
+        likes: {
+          select: { id: true },
+        },
+        dislikes: {
+          select: { id: true },
+        },
+      },
     });
 
     return { posts };
