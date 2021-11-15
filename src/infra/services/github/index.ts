@@ -1,8 +1,7 @@
 import axios from 'axios';
 
 import { IGithubServices } from '@application/services/github';
-import { GetUserInfosParams } from '@application/services/github/ports/requests';
-import { GetUserInfosResponse } from '@application/services/github/ports/responses';
+import { GetUserInfosResponse, GetUserInfosParams } from '@application/services/github/ports';
 import { left, right } from '@shared/error-handler/either';
 import { InvalidGithubCodeError } from '@application/services/github/errors/invalidGithubCodeError';
 import { ENVS } from '@main/config/constants';
