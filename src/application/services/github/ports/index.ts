@@ -11,3 +11,7 @@ export type GetUserInfosSuccess = {
 
 export type GetUserInfosFailure = NotFoundUserError | InvalidGithubCodeError;
 export type GetUserInfosResponse = Either<GetUserInfosFailure, GetUserInfosSuccess>;
+
+export type GetUserInfosParams = {
+  code: string;
+};
