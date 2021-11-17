@@ -21,16 +21,18 @@ export class PrismaPgPostRepository implements IPostRepository {
         content: true,
         author_id: true,
         created_at: true,
-        likes: {
-          select: { id: true },
-        },
-        dislikes: {
-          select: { id: true },
-        },
       },
     });
 
-    return { posts };
+    const postsWithLikes = await Promise.all(
+      posts.map(async (post) => {
+        const likes = await prismaDB.postLikes.count({ where: { post_id: post.id } });
+        const dislikes = await prismaDB.postDisLikes.count({ where: { post_id: post.id } });
+        return { ...post, likes, dislikes };
+      }),
+    );
+
+    return { posts: postsWithLikes };
   }
 
   async createPost(data: PostCreateDto): Promise<{ id: string }> {

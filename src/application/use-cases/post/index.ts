@@ -20,7 +20,7 @@ export class PostUseCases implements IPostUseCases {
   }
 
   async getAllUserPosts(data: GetAllUserPostsUseCaseRequest): Promise<GetAllUserPostsUseCaseResposense> {
-    const cacheKey = `${data.userId}_posts`;
+    const cacheKey = `${data.userId}_posts_${data.page}_${data.limit}`;
     const hasPostsCached = await this.cacheServcices.getCacheData<PostStoredDto[] | null>(cacheKey);
 
     if (hasPostsCached) {
@@ -43,7 +43,7 @@ export class PostUseCases implements IPostUseCases {
     if (postOrError.isLeft()) return left(postOrError.value);
 
     const postCreated = await this.postRepository.createPost(postOrError.value);
-    await this.cacheServcices.removeCacheData(`${data.authorId}_posts`);
+    await this.cacheServcices.removeCacheData(`${data.authorId}_posts_*`);
 
     return right(postCreated);
   }
