@@ -48,4 +48,13 @@ export type UserDbStoredDto = {
   created_at: Date;
 };
 
+export type UserProfileDto = {
+  username: string | undefined;
+  name: string | undefined;
+  website: string | undefined;
+  location: string | undefined;
+  date_of_birth: string | undefined;
+  bio: string | undefined;
+};
+
 export type UserDto = Omit<UserStoredDto, 'password'>;
