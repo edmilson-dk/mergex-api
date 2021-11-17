@@ -11,14 +11,13 @@
 - [x] Login de usuário usando o github_id e senha
 - [x] Login de usuário usando o email e senha
 - [ ] Criação de profile do usuário
-  - [ ] Após a criação do usuário, o usuário deve ser redirecionado para a página de profile
   - [ ] O usuário pode usar o mesmo avatar que está no github ou pode escolher um avatar diferente
   - [ ] O usuário pode escolher um banner para o profile
-  - [ ] O usário pode definir sua localização
-  - [ ] O usuário pode definir sua data de nascimento
-  - [ ] O usuário pode definir um link para o seu website
+  - [x] O usário pode definir sua localização
+  - [x] O usuário pode definir sua data de nascimento
+  - [x] O usuário pode definir um link para o seu website
 - [x] Criação de posts
   - [x] Apenas usuários autenticados podem criar posts
   - [x] Lista de posts deve ser ordenada por data de criação
-  - [ ] Fazer cache dos posts
+  - [x] Fazer cache dos posts
   - [ ] O usuário pode deletar seu post
