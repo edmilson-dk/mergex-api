@@ -21,32 +21,32 @@ type ObjectsBuildType = {
 };
 
 export class User {
-  private createName(name: string): Either<InvalidNameError, string> {
+  public createName(name: string): Either<InvalidNameError, string> {
     const isValid = isValidName(name);
     return isValid ? right(name) : left(new InvalidNameError(name));
   }
 
-  private createEmail(email: string): Either<InvalidEmailError, string> {
+  public createEmail(email: string): Either<InvalidEmailError, string> {
     const isValid = isValidEmail(email);
     return isValid ? right(email) : left(new InvalidEmailError(email));
   }
 
-  private createPassword(password: string): Either<InvalidPasswordError, string> {
+  public createPassword(password: string): Either<InvalidPasswordError, string> {
     const isValid = isValidPassword(password);
     return isValid ? right(password) : left(new InvalidPasswordError(password));
   }
 
-  private createUsername(username: string): Either<InvalidUsernameError, string> {
+  public createUsername(username: string): Either<InvalidUsernameError, string> {
     const isValid = isValidUsername(username);
     return isValid ? right(username) : left(new InvalidUsernameError(username));
   }
 
-  private createGithubUsername(githubUsername: string): Either<InvalidGithubUsernameError, string> {
+  public createGithubUsername(githubUsername: string): Either<InvalidGithubUsernameError, string> {
     const isValid = isValidGithubUsername(githubUsername);
     return isValid ? right(githubUsername) : left(new InvalidGithubUsernameError(githubUsername));
   }
 
-  private createBio(bio: string): Either<InvalidBioError, string> {
+  public createBio(bio: string): Either<InvalidBioError, string> {
     const isValid = isValidBio(bio);
     return isValid ? right(bio) : left(new InvalidBioError(bio));
   }
@@ -64,23 +64,18 @@ export class User {
     if (objects.name.isLeft()) {
       return left(new InvalidNameError(data.name));
     }
-
     if (objects.email.isLeft()) {
       return left(new InvalidEmailError(data.email));
     }
-
     if (objects.password.isLeft()) {
       return left(new InvalidPasswordError(data.password));
     }
-
     if (objects.username.isLeft()) {
       return left(new InvalidUsernameError(data.username));
     }
-
     if (objects.githubUsername.isLeft()) {
       return left(new InvalidGithubUsernameError(data.githubUsername));
     }
-
     if (objects.bio.isLeft()) {
       return left(new InvalidBioError(data.bio));
     }
