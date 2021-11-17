@@ -1,5 +1,5 @@
 import { IUserRepository } from '@application/repositories/user';
-import { UserCreateDto, UserStoredDto } from '@domain/user/dtos';
+import { UserCreateDto, UserProfileDto, UserStoredDto } from '@domain/user/dtos';
 import { User } from '@domain/user/entity/user';
 import { UserMappers } from '@domain/user/mappers';
 import { IUserUseCases } from '@domain/user/use-cases';
@@ -15,6 +15,7 @@ import {
   AuthUserByGithubRequest,
   AuthUserByGithubUseCaseResponse,
   CreateUserUseCaseResponse,
+  UpdateUserProfileUseCaseResponse,
 } from '@domain/user/use-cases/ports/';
 import { left, right } from '@shared/error-handler/either';
 import { compareValue, hashValue } from '@shared/security';
@@ -27,13 +28,40 @@ export class UserUseCases implements IUserUseCases {
     this.userRepository = userRepository;
   }
 
+  async updateUserProfile(data: UserProfileDto, userId: string): Promise<UpdateUserProfileUseCaseResponse> {
+    const user = new User();
+    const usernameOrError = data.username ? user.createUsername(data.username) : null;
+    const nameOrError = data.name ? user.createName(data.name) : null;
+    const bioOrError = data.bio ? user.createBio(data.bio) : null;
+
+    if (usernameOrError && usernameOrError.isLeft()) {
+      return left(usernameOrError.value);
+    }
+    if (nameOrError && nameOrError.isLeft()) {
+      return left(nameOrError.value);
+    }
+    if (bioOrError && bioOrError.isLeft()) {
+      return left(bioOrError.value);
+    }
+
+    if (usernameOrError) {
+      const username = usernameOrError.value;
+      const userByUsername = await this.userRepository.findByUsername(username);
+
+      if (userByUsername.id) {
+        return left(new ExistingByUsernameUserError(username));
+      }
+    }
+
+    const userUpdated = await this.userRepository.updateUserProfile(data, userId);
+    return right(userUpdated);
+  }
+
   async createUser(data: UserCreateDto): Promise<CreateUserUseCaseResponse> {
     const user = new User();
     const userOrError = user.build(data);
 
-    if (userOrError.isLeft()) {
-      return left(userOrError.value);
-    }
+    if (userOrError.isLeft()) return left(userOrError.value);
 
     const userBuilded = userOrError.value;
     const userFormatted = UserMappers.toCreateUserDto(userBuilded);
@@ -45,12 +73,10 @@ export class UserUseCases implements IUserUseCases {
     if (userByGithubId.githubId) {
       return left(new ExistingByGithubIdUserError(userFormatted.githubId));
     }
-
-    if (userByEmail.githubId) {
+    if (userByEmail.id) {
       return left(new ExistingByEmailUserError(userFormatted.email));
     }
-
-    if (userByUsername.githubId) {
+    if (userByUsername.id) {
       return left(new ExistingByUsernameUserError(userFormatted.username));
     }
 
@@ -86,7 +112,6 @@ export class UserUseCases implements IUserUseCases {
     }
 
     const userDto = UserMappers.toUserDto(user);
-
     return right(userDto);
   }
 
