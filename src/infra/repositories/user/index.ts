@@ -1,6 +1,6 @@
 import { IUserRepository } from '@application/repositories/user';
 import { FindUserRepositoryResponse, GetUserStoredRepositoryResponse } from '@application/repositories/user/ports';
-import { UserCreateDto } from '@domain/user/dtos';
+import { UserCreateDto, UserProfileDto } from '@domain/user/dtos';
 import { UserMappers } from '@domain/user/mappers';
 import { prismaDB } from '@infra/database/prisma';
 
@@ -89,5 +89,25 @@ export class PrismaPgUserRepository implements IUserRepository {
 
     const response = UserMappers.fromDbToUserStoredDto(user);
     return response;
+  }
+
+  async updateUserProfile(data: UserProfileDto, userId: string): Promise<UserProfileDto> {
+    const objectsValid: any = {};
+
+    if (data.username) objectsValid.username = data.username;
+    if (data.name) objectsValid.name = data.name;
+    if (data.bio) objectsValid.bio = data.bio;
+    if (data.date_of_birth) objectsValid.date_of_birth = data.date_of_birth;
+    if (data.location) objectsValid.location = data.location;
+    if (data.website) objectsValid.website = data.website;
+
+    await prismaDB.user.update({
+      where: { id: userId },
+      data: {
+        ...objectsValid,
+      },
+    });
+
+    return objectsValid;
   }
 }
