@@ -110,4 +110,15 @@ export class PrismaPgUserRepository implements IUserRepository {
 
     return objectsValid;
   }
+
+  async updateUserAvatar(avatarUrl: string, userId: string): Promise<{ avatar: string }> {
+    await prismaDB.user.update({
+      where: { id: userId },
+      data: {
+        avatar_url: avatarUrl,
+      },
+    });
+
+    return { avatar: avatarUrl };
+  }
 }
