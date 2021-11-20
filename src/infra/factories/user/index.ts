@@ -7,6 +7,7 @@ import { PrismaPgUserRepository } from '@infra/repositories/user';
 import { AuthUserByGithubController } from '@infra/presentation/controllers/user/authUserByGithubController';
 import { AuthUserByEmailController } from '@infra/presentation/controllers/user/authUserByEmailController';
 import { UpdateUserProfileController } from '@infra/presentation/controllers/user/updateUserProfileController';
+import { UpdateUserAvatarController } from '@infra/presentation/controllers/user/updateUserAvatarController';
 
 const userRepository = new PrismaPgUserRepository();
 const userUseCases = new UserUseCases(userRepository);
@@ -30,4 +31,9 @@ export async function makeAuthUserByEmailController(req: Request, res: Response)
 export async function makeUpdateUserProfileController(req: Request, res: Response) {
   const controller = new UpdateUserProfileController(userUseCases);
   return await controller.handle(req, res);
+}
+
+export function makeUpdateUserAvatarController(req: Request, res: Response) {
+  const controller = new UpdateUserAvatarController(userUseCases);
+  return controller.handle(req, res);
 }
