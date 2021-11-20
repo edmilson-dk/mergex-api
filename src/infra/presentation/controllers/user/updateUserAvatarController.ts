@@ -22,7 +22,7 @@ export class UpdateUserAvatarController {
       await this.userUseCase.updateUserAvatar(fileSavedName, userId);
 
       return res.status(200).send({
-        avatarUrl: `${req.protocol}://${req.hostname}/files/${fileSavedName}`,
+        avatarUrl: fileSavedName,
       });
     } catch (err) {
       return res.status(500).send({ message: err });
