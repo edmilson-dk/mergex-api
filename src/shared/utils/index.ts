@@ -1,3 +1,5 @@
+import { randomUUID } from 'crypto';
+
 type SerializePaginationParams = {
   page: number;
   limit: number;
@@ -15,4 +17,8 @@ export function serializePagination({ page, limit, defaultLimit = 10 }: Serializ
     page: pageValue,
     limit: limitValue,
   };
+}
+
+export function generateUUID(): string {
+  return randomUUID();
 }
