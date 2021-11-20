@@ -6,6 +6,7 @@ import {
   makeAuthUserByGithubController,
   makeCreateUserController,
   makeUpdateUserAvatarController,
+  makeUpdateUserBannerController,
   makeUpdateUserProfileController,
 } from '@infra/factories/user';
 import { authUserJwtMiddleware } from '../middlewares/auth-middlewares';
@@ -23,4 +24,10 @@ userRoutes.put(
   multerImageUpload.single('image'),
   authUserJwtMiddleware,
   makeUpdateUserAvatarController,
+);
+userRoutes.put(
+  '/profile/banner',
+  multerImageUpload.single('image'),
+  authUserJwtMiddleware,
+  makeUpdateUserBannerController,
 );

@@ -10,8 +10,8 @@
   - [x] O usuário não pode ser criado com um username que já existe
 - [x] Login de usuário usando o github_id e senha
 - [x] Login de usuário usando o email e senha
-- [ ] Criação de profile do usuário
-  - [ ] O usuário pode usar o mesmo avatar que está no github ou pode escolher um avatar diferente
+- [x] Criação de profile do usuário
+  - [x] O usuário pode usar o mesmo avatar que está no github ou pode escolher um avatar diferente
   - [ ] O usuário pode escolher um banner para o profile
   - [x] O usário pode definir sua localização
   - [x] O usuário pode definir sua data de nascimento

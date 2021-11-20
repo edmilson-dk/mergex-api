@@ -10,4 +10,5 @@ export interface IUserRepository {
   createUser(data: UserCreateDto): Promise<{ id: string }>;
   updateUserProfile: (data: UserProfileDto, userId: string) => Promise<UserProfileDto>;
   updateUserAvatar: (avatarUrl: string, userId: string) => Promise<{ avatar: string }>;
+  updateUserBanner: (bannerUrl: string, userId: string) => Promise<{ banner: string }>;
 }

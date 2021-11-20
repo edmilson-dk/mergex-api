@@ -121,4 +121,15 @@ export class PrismaPgUserRepository implements IUserRepository {
 
     return { avatar: avatarUrl };
   }
+
+  async updateUserBanner(bannerUrl: string, userId: string): Promise<{ banner: string }> {
+    await prismaDB.user.update({
+      where: { id: userId },
+      data: {
+        banner_url: bannerUrl,
+      },
+    });
+
+    return { banner: bannerUrl };
+  }
 }

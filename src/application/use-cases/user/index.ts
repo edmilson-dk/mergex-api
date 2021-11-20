@@ -144,4 +144,9 @@ export class UserUseCases implements IUserUseCases {
     const userUpdated = await this.userRepository.updateUserAvatar(avatarUrl, userId);
     return { avatar: userUpdated.avatar };
   }
+
+  async updateUserBanner(bannerUrl: string, userId: string): Promise<{ banner: string }> {
+    const userUpdated = await this.userRepository.updateUserBanner(bannerUrl, userId);
+    return { banner: userUpdated.banner };
+  }
 }

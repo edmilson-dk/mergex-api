@@ -14,4 +14,5 @@ export interface IUserUseCases {
   authUserByGithubId: (data: AuthUserByGithubRequest) => Promise<AuthUserByGithubUseCaseResponse>;
   updateUserProfile: (data: UserProfileDto, userId: string) => Promise<UpdateUserProfileUseCaseResponse>;
   updateUserAvatar: (avatarUrl: string, userId: string) => Promise<{ avatar: string }>;
+  updateUserBanner: (bannerUrl: string, userId: string) => Promise<{ banner: string }>;
 }
