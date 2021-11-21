@@ -12,10 +12,15 @@
 - [x] Login de usuário usando o email e senha
 - [x] Criação de profile do usuário
   - [x] O usuário pode usar o mesmo avatar que está no github ou pode escolher um avatar diferente
-  - [ ] O usuário pode escolher um banner para o profile
+  - [x] O usuário pode escolher um banner para o profile
   - [x] O usário pode definir sua localização
   - [x] O usuário pode definir sua data de nascimento
   - [x] O usuário pode definir um link para o seu website
+- [ ] Busca de usuários
+  - [ ] Buscar por nome
+  - [ ] Buscar por username
+  - [ ] Buscar por localização
+  - [ ] Buscar por data de nascimento
 - [x] Criação de posts
   - [x] Apenas usuários autenticados podem criar posts
   - [x] Lista de posts deve ser ordenada por data de criação

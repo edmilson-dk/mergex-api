@@ -1,5 +1,5 @@
 import { IUserRepository } from '@application/repositories/user';
-import { UserCreateDto, UserProfileDto, UserStoredDto } from '@domain/user/dtos';
+import { UserCreateDto, UserProfileDto } from '@domain/user/dtos';
 import { User } from '@domain/user/entity/user';
 import { UserMappers } from '@domain/user/mappers';
 import { IUserUseCases } from '@domain/user/use-cases';
