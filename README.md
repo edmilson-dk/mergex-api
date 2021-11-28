@@ -16,7 +16,7 @@
   - [x] O usário pode definir sua localização
   - [x] O usuário pode definir sua data de nascimento
   - [x] O usuário pode definir um link para o seu website
-- [ ] Busca de usuários
+- [x] Busca de usuários
   - [ ] Buscar por nome
   - [ ] Buscar por username
   - [ ] Buscar por localização
