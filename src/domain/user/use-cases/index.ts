@@ -16,4 +16,5 @@ export interface IUserUseCases {
   updateUserAvatar: (avatarUrl: string, userId: string) => Promise<{ avatar: string }>;
   updateUserBanner: (bannerUrl: string, userId: string) => Promise<{ banner: string }>;
   searchUserByName: (name: string) => Promise<UserSimpleDto[]>;
+  searchUserByUsername: (username: string) => Promise<UserSimpleDto[]>;
 }
