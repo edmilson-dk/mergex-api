@@ -1,4 +1,4 @@
-import { UserCreateDto, UserDbStoredDto, UserDto, UserStoredDto } from '../dtos';
+import { UserCreateDto, UserDbStoredDto, UserDto, UserSimpleDto, UserStoredDto } from '../dtos';
 
 export class UserMappers {
   static toCreateUserDto(params: any): UserCreateDto {
@@ -53,6 +53,15 @@ export class UserMappers {
       bannerUrl: params.bannerUrl,
       avatarUrl: params.avatarUrl,
       isDisabled: params.isDisabled,
+    };
+  }
+
+  static fromDbToUserSimpleDto(params: any): UserSimpleDto {
+    return {
+      id: params.id,
+      name: params.name,
+      username: params.username,
+      avatarUrl: params.avatar_url,
     };
   }
 }
