@@ -154,4 +154,9 @@ export class UserUseCases implements IUserUseCases {
     const users = await this.userRepository.getUsersByName(name);
     return users;
   }
+
+  async searchUserByUsername(username: string): Promise<UserSimpleDto[]> {
+    const users = await this.userRepository.getUsersByUsername(username);
+    return users;
+  }
 }
