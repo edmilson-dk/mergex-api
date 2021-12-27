@@ -146,6 +146,11 @@ export class PrismaPgUserRepository implements IUserRepository {
         username: true,
         avatar_url: true,
       },
+      orderBy: {
+        name: 'asc',
+      },
+      skip: 0,
+      take: 15,
     });
 
     return users.map(UserMappers.fromDbToUserSimpleDto);
