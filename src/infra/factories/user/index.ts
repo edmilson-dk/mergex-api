@@ -10,6 +10,7 @@ import { UpdateUserProfileController } from '@infra/presentation/controllers/use
 import { UpdateUserAvatarController } from '@infra/presentation/controllers/user/updateUserAvatarController';
 import { UpdateUserBannerController } from '@infra/presentation/controllers/user/userUserBannerController';
 import { SearchUserByNameController } from '@infra/presentation/controllers/user/searchUserByNameController';
+import { SearchUserByUsernameController } from '@infra/presentation/controllers/user/searchUserByUsernameController';
 
 const userRepository = new PrismaPgUserRepository();
 const userUseCases = new UserUseCases(userRepository);
@@ -47,5 +48,10 @@ export function makeUpdateUserBannerController(req: Request, res: Response) {
 
 export function makeSearchUserByNameController(req: Request, res: Response) {
   const controller = new SearchUserByNameController(userUseCases);
+  return controller.handle(req, res);
+}
+
+export function makeSearchUserByUsernameController(req: Request, res: Response) {
+  const controller = new SearchUserByUsernameController(userUseCases);
   return controller.handle(req, res);
 }
