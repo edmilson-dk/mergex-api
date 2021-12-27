@@ -57,4 +57,11 @@ export type UserProfileDto = {
   bio: string | undefined;
 };
 
+export type UserSimpleDto = {
+  id: string;
+  name: string;
+  username: string;
+  avatarUrl: string | null;
+};
+
 export type UserDto = Omit<UserStoredDto, 'password'>;
