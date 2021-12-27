@@ -8,6 +8,7 @@ import {
   makeUpdateUserAvatarController,
   makeUpdateUserBannerController,
   makeUpdateUserProfileController,
+  makeSearchUserByNameController,
 } from '@infra/factories/user';
 import { authUserJwtMiddleware } from '../middlewares/auth-middlewares';
 import { multerImageUploadConfig } from '@shared/multer';
@@ -31,3 +32,4 @@ userRoutes.put(
   authUserJwtMiddleware,
   makeUpdateUserBannerController,
 );
+userRoutes.get('/search/name', authUserJwtMiddleware, makeSearchUserByNameController);
