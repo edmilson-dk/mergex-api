@@ -1,4 +1,4 @@
-import { UserCreateDto, UserProfileDto } from '@domain/user/dtos';
+import { UserCreateDto, UserProfileDto, UserSimpleDto } from '@domain/user/dtos';
 import { FindUserRepositoryResponse, GetUserStoredRepositoryResponse } from './ports';
 
 export interface IUserRepository {
@@ -11,4 +11,5 @@ export interface IUserRepository {
   updateUserProfile: (data: UserProfileDto, userId: string) => Promise<UserProfileDto>;
   updateUserAvatar: (avatarUrl: string, userId: string) => Promise<{ avatar: string }>;
   updateUserBanner: (bannerUrl: string, userId: string) => Promise<{ banner: string }>;
+  getUsersByName: (name: string) => Promise<UserSimpleDto[]>;
 }
