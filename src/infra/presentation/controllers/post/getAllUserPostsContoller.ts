@@ -24,13 +24,15 @@ export class GetAllUserPostsController {
         limit: Number(limit) || 10,
       });
 
-      const posts = await this.postUseCases.getAllUserPosts({
+      const postsValues = await this.postUseCases.getAllUserPosts({
         userId,
         ...paginationProps,
       });
 
+      const posts = postsValues.value.posts;
+
       return res.status(200).send({
-        posts: posts.value.posts,
+        posts,
       });
     } catch (err) {
       return res.status(500).send({ message: err });
