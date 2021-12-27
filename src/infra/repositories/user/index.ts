@@ -5,6 +5,13 @@ import { UserMappers } from '@domain/user/mappers';
 import { prismaDB } from '@infra/database/prisma';
 
 export class PrismaPgUserRepository implements IUserRepository {
+  private readonly selectGetUsersSimpleData = {
+    id: true,
+    name: true,
+    username: true,
+    avatar_url: true,
+  };
+
   async findByGithubId(githubId: string): Promise<FindUserRepositoryResponse> {
     const user = await prismaDB.user.findFirst({
       where: { github_id: githubId },
@@ -141,14 +148,28 @@ export class PrismaPgUserRepository implements IUserRepository {
           mode: 'insensitive',
         },
       },
-      select: {
-        id: true,
-        name: true,
-        username: true,
-        avatar_url: true,
-      },
+      select: this.selectGetUsersSimpleData,
       orderBy: {
         name: 'asc',
+      },
+      skip: 0,
+      take: 15,
+    });
+
+    return users.map(UserMappers.fromDbToUserSimpleDto);
+  }
+
+  async getUsersByUsername(username: string): Promise<UserSimpleDto[]> {
+    const users = await prismaDB.user.findMany({
+      where: {
+        username: {
+          contains: username,
+          mode: 'insensitive',
+        },
+      },
+      select: this.selectGetUsersSimpleData,
+      orderBy: {
+        username: 'asc',
       },
       skip: 0,
       take: 15,
