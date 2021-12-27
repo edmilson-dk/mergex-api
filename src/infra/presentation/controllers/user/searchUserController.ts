@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 
 import { IUserUseCases } from '@domain/user/use-cases';
 
-export class SearchUserByNameController {
+export class SearchUserController {
   private readonly userUseCase: IUserUseCases;
 
   constructor(userUseCases: IUserUseCases) {
