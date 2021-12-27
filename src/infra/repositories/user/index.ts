@@ -138,6 +138,7 @@ export class PrismaPgUserRepository implements IUserRepository {
       where: {
         name: {
           contains: name,
+          mode: 'insensitive',
         },
       },
       select: {
