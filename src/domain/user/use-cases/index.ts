@@ -1,4 +1,4 @@
-import { UserCreateDto, UserProfileDto } from '../dtos';
+import { UserCreateDto, UserProfileDto, UserSimpleDto } from '../dtos';
 import {
   CreateUserUseCaseResponse,
   AuthUserByEmailRequest,
@@ -15,4 +15,5 @@ export interface IUserUseCases {
   updateUserProfile: (data: UserProfileDto, userId: string) => Promise<UpdateUserProfileUseCaseResponse>;
   updateUserAvatar: (avatarUrl: string, userId: string) => Promise<{ avatar: string }>;
   updateUserBanner: (bannerUrl: string, userId: string) => Promise<{ banner: string }>;
+  searchUserByName: (name: string) => Promise<UserSimpleDto[]>;
 }
