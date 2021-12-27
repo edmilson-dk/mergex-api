@@ -1,5 +1,5 @@
 import { IUserRepository } from '@application/repositories/user';
-import { UserCreateDto, UserProfileDto } from '@domain/user/dtos';
+import { UserCreateDto, UserProfileDto, UserSimpleDto } from '@domain/user/dtos';
 import { User } from '@domain/user/entity/user';
 import { UserMappers } from '@domain/user/mappers';
 import { IUserUseCases } from '@domain/user/use-cases';
@@ -148,5 +148,10 @@ export class UserUseCases implements IUserUseCases {
   async updateUserBanner(bannerUrl: string, userId: string): Promise<{ banner: string }> {
     const userUpdated = await this.userRepository.updateUserBanner(bannerUrl, userId);
     return { banner: userUpdated.banner };
+  }
+
+  async searchUserByName(name: string): Promise<UserSimpleDto[]> {
+    const users = await this.userRepository.getUsersByName(name);
+    return users;
   }
 }
