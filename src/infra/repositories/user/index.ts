@@ -1,6 +1,6 @@
 import { IUserRepository } from '@application/repositories/user';
 import { FindUserRepositoryResponse, GetUserStoredRepositoryResponse } from '@application/repositories/user/ports';
-import { UserCreateDto, UserProfileDto } from '@domain/user/dtos';
+import { UserCreateDto, UserProfileDto, UserSimpleDto } from '@domain/user/dtos';
 import { UserMappers } from '@domain/user/mappers';
 import { prismaDB } from '@infra/database/prisma';
 
@@ -131,5 +131,23 @@ export class PrismaPgUserRepository implements IUserRepository {
     });
 
     return { banner: bannerUrl };
+  }
+
+  async getUsersByName(name: string): Promise<UserSimpleDto[]> {
+    const users = await prismaDB.user.findMany({
+      where: {
+        name: {
+          contains: name,
+        },
+      },
+      select: {
+        id: true,
+        name: true,
+        username: true,
+        avatar_url: true,
+      },
+    });
+
+    return users.map(UserMappers.fromDbToUserSimpleDto);
   }
 }
