@@ -1,5 +1,7 @@
 import 'module-alias/register';
 import dotenv from 'dotenv';
+import SwaggerUi from 'swagger-ui-express';
+import SwaggerJson from '../docs/swagger.json';
 
 dotenv.config();
 
@@ -19,6 +21,7 @@ app.get('/github/callback', (request, response) => {
 });
 
 app.use('/v1', routes);
+app.use('/docs', SwaggerUi.serve, SwaggerUi.setup(SwaggerJson));
 
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
