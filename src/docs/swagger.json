@@ -1,12 +1,78 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "Mergex API Documentation",
-    "version": "1.0.0"
+    "title": "Mergex API",
+    "version": "1.0.0",
+    "description": "Mergex API Documentation"
   },
   "servers": [
     {
       "url": "http://localhost:8080/v1"
     }
-  ]
+  ],
+  "paths": {
+    "/user/register": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Register a new user",
+        "description": "Register a new user using initial credentials and github code to authenticate",
+        "operationId": "registerUser",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User-Register"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "User-Register": {
+        "type": "object",
+        "properties": {
+          "github_code": {
+            "type": "string",
+            "description": "Github code to authenticate user by auth0",
+            "example": "1234567890"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the user",
+            "example": "John Doe"
+          },
+          "email": {
+            "type": "string",
+            "description": "Email of the user",
+            "example": "johndoe@gmail.com"
+          },
+          "username": {
+            "type": "string",
+            "description": "Username of the user",
+            "example": "@johndoe"
+          },
+          "password": {
+            "type": "string",
+            "description": "Password of the user",
+            "example": "1234567890@$"
+          },
+          "bio": {
+            "type": "string",
+            "description": "Bio of the user",
+            "example": "I am a bio"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearer token jwt": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
 }
