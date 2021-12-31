@@ -25,6 +25,35 @@
               }
             }
           }
+        },
+        "responses": {
+          "201": {
+            "description": "User created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Message",
+                      "example": "User created successfully"
+                    },
+                    "userId": {
+                      "type": "string",
+                      "description": "User ID",
+                      "example": "1e78c8dd-b1d1-4c2f-8e2c-8e765157f855"
+                    },
+                    "token": {
+                      "type": "string",
+                      "description": "JWT Token",
+                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
       }
     },
