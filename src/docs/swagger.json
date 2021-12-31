@@ -13,7 +13,7 @@
   "paths": {
     "/user/register": {
       "post": {
-        "tags": ["User"],
+        "tags": ["User", "Register"],
         "summary": "Register a new user",
         "description": "Register a new user using initial credentials and github code to authenticate",
         "operationId": "registerUser",
@@ -22,6 +22,52 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/User-Register"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/login/email": {
+      "post": {
+        "tags": ["User", "Login"],
+        "summary": "Login a user using email and password",
+        "description": "Login a user using email and password",
+        "operationId": "loginUserEmail",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User-Login-Email"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User by email auth success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/User-Login-Email-Response"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid email or password",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message",
+                      "example": "User with email [error@gmail.com] not exists"
+                    }
+                  }
+                }
               }
             }
           }
@@ -65,6 +111,21 @@
             "example": "I am a bio"
           }
         }
+      },
+      "User-Login-Email": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "Email of the user",
+            "example": "johndoe@gmail.com"
+          },
+          "password": {
+            "type": "string",
+            "description": "Password of the user",
+            "example": "1234567890@$"
+          }
+        }
       }
     },
     "securitySchemes": {
@@ -72,6 +133,103 @@
         "type": "http",
         "scheme": "bearer",
         "bearerFormat": "JWT"
+      }
+    }
+  },
+  "definitions": {
+    "User-Login-Email-Response": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "description": "User by email auth success",
+          "example": "User by email auth success"
+        },
+        "user": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "Id of the user",
+              "example": "1e78c8dd-b1d1-4c2f-8e2c-8e765157f855"
+            },
+            "name": {
+              "type": "string",
+              "description": "Name of the user",
+              "example": "John Doe"
+            },
+            "email": {
+              "type": "string",
+              "description": "Email of the user",
+              "example": "johndoe@gmail.com"
+            },
+            "username": {
+              "type": "string",
+              "description": "Username of the user",
+              "example": "@johndoe"
+            },
+            "bio": {
+              "type": "string",
+              "description": "Bio of the user",
+              "example": "I am a bio"
+            },
+            "githubProfile": {
+              "type": "string",
+              "description": "Github profile of the user",
+              "example": "https://github.com/edmilson-dk"
+            },
+            "githubUsername": {
+              "type": "string",
+              "description": "Github username of the user",
+              "example": "edmilson-dk"
+            },
+            "githubId": {
+              "type": "string",
+              "description": "Github id of the user",
+              "example": "1234567890"
+            },
+            "website": {
+              "type": "string",
+              "description": "Website of the user",
+              "example": "https://edmilson-dk.com"
+            },
+            "dateOfBirth": {
+              "type": "string",
+              "description": "Date of birth of the user",
+              "example": "2020-01-01"
+            },
+            "location": {
+              "type": "string",
+              "description": "Location of the user",
+              "example": "Brazil"
+            },
+            "bannerUrl": {
+              "type": "string",
+              "description": "Banner url of the user",
+              "example": "8e109d76-9700-49a5-b007-3bd8cc8bec68-837258.png"
+            },
+            "avatarUrl": {
+              "type": "string",
+              "description": "Avatar url of the user",
+              "example": "8e109d76-9700-49a5-b007-3bd8cc8bec68-837258.png"
+            },
+            "isDisabled": {
+              "type": "boolean",
+              "description": "Is disabled of the user",
+              "example": false
+            },
+            "createdAt": {
+              "type": "string",
+              "description": "Created at of the user",
+              "example": "2020-01-01T00:00:00.000Z"
+            }
+          }
+        },
+        "token": {
+          "type": "string",
+          "description": "JWT token",
+          "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+        }
       }
     }
   }
