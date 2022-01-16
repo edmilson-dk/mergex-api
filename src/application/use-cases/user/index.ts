@@ -1,3 +1,6 @@
+import path from 'path';
+
+import { downloadImgFromUrl } from '@shared/helpers/download-img-from-url';
 import { IUserRepository } from '@application/repositories/user';
 import { UserCreateDto, UserProfileDto, UserSimpleDto } from '@domain/user/dtos';
 import { User } from '@domain/user/entity/user';
@@ -82,8 +85,18 @@ export class UserUseCases implements IUserUseCases {
 
     const hashedPassword = await hashValue(userBuilded.password);
 
+    const saveImagePath = path.resolve('./uploads/github/avatars');
+    const imageName = `${data.githubId}.jpg`;
+
+    await downloadImgFromUrl({
+      fileName: imageName,
+      savePath: saveImagePath,
+      url: userFormatted.avatarUrl,
+    });
+
     const userCreated = await this.userRepository.createUser({
       ...userFormatted,
+      avatarUrl: imageName,
       password: hashedPassword,
     });
 

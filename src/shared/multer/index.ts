@@ -5,7 +5,7 @@ import { generateUUID } from '@shared/utils';
 
 export const multerImageUploadConfig = {
   storage: multer.diskStorage({
-    destination: path.resolve(__dirname, '..', '..', 'tmp', 'images'),
+    destination: './uploads/tmp',
     filename: (req, file, callback) => {
       const fileHash = generateUUID();
       const fileName = `${fileHash}-${file.originalname.split(' ').join('')}`;
