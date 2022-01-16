@@ -23,6 +23,7 @@ import {
 import { left, right } from '@shared/error-handler/either';
 import { compareValue, hashValue } from '@shared/security';
 import { isValidEmail, isValidPassword } from '@shared/validators';
+import { ENVS } from '@main/config/constants';
 
 export class UserUseCases implements IUserUseCases {
   private readonly userRepository: IUserRepository;
@@ -85,7 +86,7 @@ export class UserUseCases implements IUserUseCases {
 
     const hashedPassword = await hashValue(userBuilded.password);
 
-    const saveImagePath = path.resolve('./uploads/github/avatars');
+    const saveImagePath = path.resolve(ENVS.GITHUB_AVATAR_SAVE_PATH);
     const imageName = `${data.githubId}.jpg`;
 
     await downloadImgFromUrl({
