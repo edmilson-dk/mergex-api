@@ -1,11 +1,11 @@
-import path from 'path';
 import multer from 'multer';
 
 import { generateUUID } from '@shared/utils';
+import { ENVS } from '@main/config/constants';
 
 export const multerImageUploadConfig = {
   storage: multer.diskStorage({
-    destination: './uploads/tmp',
+    destination: ENVS.IMAGE_UPLOAD_PATH,
     filename: (req, file, callback) => {
       const fileHash = generateUUID();
       const fileName = `${fileHash}-${file.originalname.split(' ').join('')}`;
