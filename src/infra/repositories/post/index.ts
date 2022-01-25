@@ -46,4 +46,13 @@ export class PrismaPgPostRepository implements IPostRepository {
 
     return post;
   }
+
+  async deleteUserPost(postId: string): Promise<string> {
+    const postDeleted = await prismaDB.post.delete({
+      where: { id: postId },
+      select: { id: true },
+    });
+
+    return postDeleted.id;
+  }
 }

@@ -3,5 +3,6 @@ import { GetAllUserPostsRepositoryRequest, GetAllUserPostsRepositoryResponse } f
 
 export interface IPostRepository {
   createPost(data: PostCreateDto): Promise<{ id: string }>;
+  deleteUserPost(postId: string): Promise<string>;
   getPostsByUserId(data: GetAllUserPostsRepositoryRequest): Promise<GetAllUserPostsRepositoryResponse>;
 }
