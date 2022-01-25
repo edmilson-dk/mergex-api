@@ -23,4 +23,9 @@
   - [x] Apenas usuários autenticados podem criar posts
   - [x] Lista de posts deve ser ordenada por data de criação
   - [x] Fazer cache dos posts
-  - [ ] O usuário pode deletar seu post
+  - [x] O usuário pode deletar seu post
+- [ ] Feed de posts
+  - [ ] O post deve ter o nome, username e avatar do usuário que criou o post
+  - [ ] O post deve ter a quanto tempo foi criado
+  - [ ] Lista de posts deve ser ordenada por data de criação
+  - [ ] Fazer cache dos posts
