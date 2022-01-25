@@ -17,10 +17,8 @@
   - [x] O usuário pode definir sua data de nascimento
   - [x] O usuário pode definir um link para o seu website
 - [x] Busca de usuários
-  - [ ] Buscar por nome
-  - [ ] Buscar por username
-  - [ ] Buscar por localização
-  - [ ] Buscar por data de nascimento
+  - [x] Buscar por nome
+  - [x] Buscar por username
 - [x] Criação de posts
   - [x] Apenas usuários autenticados podem criar posts
   - [x] Lista de posts deve ser ordenada por data de criação
