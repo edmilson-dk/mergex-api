@@ -47,4 +47,11 @@ export class PostUseCases implements IPostUseCases {
 
     return right(postCreated);
   }
+
+  async deleteUserPost(postId: string, userId: string): Promise<string> {
+    const postDeleted = await this.postRepository.deleteUserPost(postId);
+    await this.cacheServcices.removeCacheData(`${userId}_posts_*`);
+
+    return postDeleted;
+  }
 }
