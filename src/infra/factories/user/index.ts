@@ -8,7 +8,7 @@ import { AuthUserByGithubController } from '@infra/presentation/controllers/user
 import { AuthUserByEmailController } from '@infra/presentation/controllers/user/authUserByEmailController';
 import { UpdateUserProfileController } from '@infra/presentation/controllers/user/updateUserProfileController';
 import { UpdateUserAvatarController } from '@infra/presentation/controllers/user/updateUserAvatarController';
-import { UpdateUserBannerController } from '@infra/presentation/controllers/user/userUserBannerController';
+import { UpdateUserBannerController } from '@infra/presentation/controllers/user/updateUserBannerController';
 import { SearchUserByNameController } from '@infra/presentation/controllers/user/searchUserByNameController';
 import { SearchUserByUsernameController } from '@infra/presentation/controllers/user/searchUserByUsernameController';
 

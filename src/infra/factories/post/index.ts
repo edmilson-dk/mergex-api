@@ -1,5 +1,6 @@
 import { PostUseCases } from '@application/use-cases/post';
 import { CreatePostController } from '@infra/presentation/controllers/post/createPostController';
+import { DeleteUserPostController } from '@infra/presentation/controllers/post/deleteUserPostController';
 import { GetAllUserPostsController } from '@infra/presentation/controllers/post/getAllUserPostsContoller';
 import { PrismaPgPostRepository } from '@infra/repositories/post';
 import { RedisCacheServices } from '@infra/services/cache';
@@ -16,5 +17,10 @@ export async function makeCreatePostController(req: Request, res: Response) {
 
 export async function makeGetAllUserPostsController(req: Request, res: Response) {
   const controller = new GetAllUserPostsController(postUseCases);
+  return await controller.handle(req, res);
+}
+
+export async function makeDeleteUserPostController(req: Request, res: Response) {
+  const controller = new DeleteUserPostController(postUseCases);
   return await controller.handle(req, res);
 }
